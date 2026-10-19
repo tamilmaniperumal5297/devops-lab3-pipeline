@@ -55,10 +55,10 @@ pipeline {
                     sh "aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER_NAME}"
                     
                     echo 'Applying Kubernetes manifests to EKS cluster...'
-                    sh 'kubectl apply -f k8s/configmap.yaml'
-                    sh 'kubectl apply -f k8s/secret.yaml'
-                    sh 'kubectl apply -f k8s/service.yaml'
-                    sh 'kubectl apply -f k8s/deployment.yaml'
+                    sh 'kubectl apply -f configmap.yaml'
+                    sh 'kubectl apply -f secret.yaml'
+                    sh 'kubectl apply -f service.yaml'
+                    sh 'kubectl apply -f deployment.yaml'
                 }
             }
         }
