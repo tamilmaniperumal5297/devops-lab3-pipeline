@@ -6,7 +6,7 @@ pipeline {
         AWS_ACCOUNT_ID = '351387070227'
         ECR_REPO_NAME  = 'devops-lab3-app'
         CLUSTER_NAME   = 'sre-lab-eks-cluster'
-        ECR_URI        = "$351387070227.dkr.ecr.$ap-south-1.amazonaws.com/$devops-lab3-app"
+        ECR_URI        = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}"
     }
 
     stages {
