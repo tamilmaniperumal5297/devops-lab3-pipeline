@@ -1,0 +1,6 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: lab3-config
+data:
+  APP_ENV: "AWS-EKS-Production"  
