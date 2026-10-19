@@ -30,14 +30,16 @@ spec:
           httpGet:
             path: /healthz
             port: 5000
-          initialDelaySeconds: 15
-          periodSeconds: 10
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          failureThreshold: 3
         readinessProbe:
           httpGet:
             path: /healthz
             port: 5000
-          initialDelaySeconds: 5
-          periodSeconds: 5
+          initialDelaySeconds: 3
+          periodSeconds: 3
+          failureThreshold: 1
         envFrom:
         - configMapRef:
             name: lab3-config
