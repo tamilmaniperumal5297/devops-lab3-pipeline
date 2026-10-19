@@ -25,7 +25,7 @@ pipeline {
                 ]) {
                     echo "Authenticating with ECR in ${AWS_REGION}..."
                     sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
-                    
+
                     echo "Building container image..."
                     sh "docker build -t ${ECR_URI}:${BUILD_NUMBER} -t ${ECR_URI}:latest ."
                 }
@@ -53,7 +53,7 @@ pipeline {
                 ]) {
                     echo "Updating kubeconfig for EKS cluster ${CLUSTER_NAME}..."
                     sh "aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER_NAME}"
-                    
+
                     echo 'Applying Kubernetes manifests to EKS cluster...'
                     sh 'kubectl apply -f configmap.yaml'
                     sh 'kubectl apply -f secret.yaml'
@@ -65,7 +65,13 @@ pipeline {
 
         stage('5. Verify Rollout') {
             steps {
-                sh 'kubectl rollout status deployment/devops-lab3-deployment --timeout=120s'
+                withCredentials([
+                    string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
+                    string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')
+                ]) {
+                    echo 'Verifying deployment rollout status on EKS...'
+                    sh 'kubectl rollout status deployment/devops-lab3-deployment --timeout=120s'
+                }
             }
         }
     }
